@@ -27,3 +27,11 @@ async def chat(msg: Message):
 async def new_chat():
     chat_instance.new_chat()
     return {"status": "chat reset"}
+
+# Serve a simple HTML page for testing
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+app.mount("/static", StaticFiles(directory="../tests"), name="static")
+@app.get("/")
+def get_chat_page():
+    return FileResponse("../tests/testFrontHTML.html")
