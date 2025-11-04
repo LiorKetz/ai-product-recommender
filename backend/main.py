@@ -5,10 +5,19 @@ import requests
 import os
 from chat import Chat
 from model import send_to_model
-
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 chat_instance = Chat()
+
+# Allow frontend calls
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  # REPLACE WITH FRONTEND URL
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 class Message(BaseModel):
@@ -28,10 +37,3 @@ async def new_chat():
     chat_instance.new_chat()
     return {"status": "chat reset"}
 
-# Serve a simple HTML page for testing
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
-app.mount("/static", StaticFiles(directory="../tests"), name="static")
-@app.get("/")
-def get_chat_page():
-    return FileResponse("../tests/testFrontHTML.html")

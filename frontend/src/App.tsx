@@ -11,15 +11,40 @@ interface Message {
 const App: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
 
-  const handleSend = (text: string) => {
+  const handleSend = async (text: string) => {
     const userMessage: Message = { role: "user", content: text };
-    const fakeResponse: Message = { role: "assistant", content: "Automated response from bot" };
+    setMessages((prev) => [...prev, userMessage]);
 
-    setMessages((prev) => [...prev, userMessage, fakeResponse]);
+    try {
+      const response = await fetch("http://127.0.0.1:8000/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text }),
+      });
+
+      if (!response.ok) throw new Error("API error");
+
+      const data = await response.json();
+      const botMessage: Message = { role: "assistant", content: data.response };
+      setMessages((prev) => [...prev, botMessage]);
+    } catch (err) {
+      const errorMessage: Message = { role: "assistant", content: "Error: could not reach backend" };
+      setMessages((prev) => [...prev, errorMessage]);
+    }
   };
 
-  const handleNewChat = () => {
-    setMessages([]);
+
+  const handleNewChat = async () => {
+    setMessages([]);  // איפוס ה־state בצד React
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/new_chat", {
+        method: "POST",
+      });
+      if (!response.ok) throw new Error("Failed to reset chat on backend");
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
