@@ -35,7 +35,7 @@ const App: React.FC = () => {
 
 
   const handleNewChat = async () => {
-    setMessages([]);  // איפוס ה־state בצד React
+    setMessages([]);  // Clear chat in frontend
 
     try {
       const response = await fetch("http://127.0.0.1:8000/new_chat", {

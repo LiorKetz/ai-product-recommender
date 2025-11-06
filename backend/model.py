@@ -2,6 +2,7 @@ import os
 import requests
 from dotenv import load_dotenv
 
+
 load_dotenv()
 
 API_KEY = os.getenv("GROQ_API_KEY")
@@ -9,21 +10,33 @@ if not API_KEY:
     raise ValueError("Missing GROQ_API_KEY in .env file")
 API_URL = "https://api.groq.com/openai/v1/chat/completions"
 
-MODEL_NAME = "llama-3.1-8b-instant"
+MODEL_NAME = "llama-3.3-70b-versatile"
+HEADERS = {
+    "Authorization": f"Bearer {API_KEY}",
+    "Content-Type": "application/json"
+}
 
-def send_to_model(chat):
+
+def send_to_model(input_data):
+    # if input is a string, convert to messages format
+    if isinstance(input_data, str):
+        messages = [{"role": "user", "content": input_data}]
+    elif isinstance(input_data, list):
+        messages = input_data
+    else:
+        raise ValueError("input_data must be string or list of messages")
+
     data = {
         "model": MODEL_NAME,
-        "messages": chat,
+        "messages": messages,
         "temperature": 0.7
     }
-    headers = {
-        "Authorization": f"Bearer {API_KEY}",
-        "Content-Type": "application/json"
-    }
 
-    response = requests.post(API_URL, json=data, headers=headers)
+    response = requests.post(API_URL, json=data, headers=HEADERS)
     response.raise_for_status()
     result = response.json()
+
     answer = result["choices"][0]["message"]["content"]
+    print("RAW MODEL ANSWER >>>", answer)
     return answer
+
