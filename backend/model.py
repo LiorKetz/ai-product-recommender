@@ -20,7 +20,7 @@ HEADERS = {
 def send_to_model(input_data):
     # if input is a string, convert to messages format
     if isinstance(input_data, str):
-        messages = [{"role": "user", "content": input_data}]
+        messages = [{"role": "system", "content": input_data}]
     elif isinstance(input_data, list):
         messages = input_data
     else:
