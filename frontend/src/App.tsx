@@ -31,6 +31,11 @@ const ChatApp: React.FC = () => {
     };
   }, []);
 
+  // Set document title on mount
+  useEffect(() => {
+    document.title = "AdviseBot"; 
+  }, []);
+
   /**
    * @param text The text message sent by the user
    * Handles sending user message to backend and receiving bot response. 
@@ -108,7 +113,7 @@ const ChatApp: React.FC = () => {
     <div className="flex flex-col h-screen bg-gray-100">
       {/* Header */}
       <div className="bg-white border-b p-4 flex justify-between items-center">
-        <h1 className="text-xl font-bold text-gray-800">Chat Bot</h1>
+        <h1 className="text-3xl font-bold text-gray-800">AdviseBot</h1>
         <Button label="New Chat" variant="secondary" onClick={handleNewChat} />
       </div>
 
