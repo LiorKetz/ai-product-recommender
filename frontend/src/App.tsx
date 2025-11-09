@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ChatWindow from "./components/ChatWindow/ChatWindow";
 import InputBox from "./components/ChatWindow/InputBox";
 import Button from "./components/Button";
+import Dashboard from "./components/Dashboard";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
+  isRecommendation?: boolean;
+  feedback?: 'positive' | 'negative' | 'none';
 }
 
-const App: React.FC = () => {
+// Main chat component
+const ChatApp: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
 
   const handleSend = async (text: string) => {
@@ -25,7 +29,12 @@ const App: React.FC = () => {
       if (!response.ok) throw new Error("API error");
 
       const data = await response.json();
-      const botMessage: Message = { role: "assistant", content: data.response };
+      const botMessage: Message = { 
+        role: "assistant", 
+        content: data.response,
+        isRecommendation: data.is_recommendation,
+        feedback: 'none'
+      };
       setMessages((prev) => [...prev, botMessage]);
     } catch (err) {
       const errorMessage: Message = { role: "assistant", content: "Error: could not reach backend" };
@@ -33,9 +42,27 @@ const App: React.FC = () => {
     }
   };
 
+  const handleFeedback = async (messageIndex: number, feedbackType: 'positive' | 'negative') => {
+    setMessages((prev) =>
+      prev.map((msg, idx) =>
+        idx === messageIndex ? { ...msg, feedback: feedbackType } : msg
+      )
+    );
+
+    try {
+      await fetch("http://127.0.0.1:8000/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ feedback: feedbackType }),
+      });
+      console.log(`Feedback sent: ${feedbackType}`);
+    } catch (err) {
+      console.error("Failed to send feedback:", err);
+    }
+  };
 
   const handleNewChat = async () => {
-    setMessages([]);  // Clear chat in frontend
+    setMessages([]);
 
     try {
       const response = await fetch("http://127.0.0.1:8000/new_chat", {
@@ -57,7 +84,7 @@ const App: React.FC = () => {
 
       {/* Chat Window */}
       <div className="flex-1 overflow-hidden">
-        <ChatWindow messages={messages} />
+        <ChatWindow messages={messages} onFeedback={handleFeedback} />
       </div>
 
       {/* Input Area */}
@@ -68,5 +95,24 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+// Main App with simple routing
+const App: React.FC = () => {
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
 
+  useEffect(() => {
+    const handleLocationChange = () => {
+      setCurrentPath(window.location.pathname);
+    };
+    
+    window.addEventListener('popstate', handleLocationChange);
+    return () => window.removeEventListener('popstate', handleLocationChange);
+  }, []);
+
+  if (currentPath === '/dashboard') {
+    return <Dashboard />;
+  }
+  
+  return <ChatApp />;
+};
+
+export default App;
