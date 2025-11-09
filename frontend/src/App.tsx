@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ChatWindow from "./components/ChatWindow/ChatWindow";
 import InputBox from "./components/ChatWindow/InputBox";
 import Button from "./components/Button";
@@ -14,6 +14,28 @@ interface Message {
 // Main chat component
 const ChatApp: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
+  const hasMessagesRef = useRef(false);
+
+  // Track if there are messages in the chat
+  useEffect(() => {
+    hasMessagesRef.current = messages.length > 0;
+  }, [messages]);
+
+  // Handle page refresh/close - call new_chat API
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      // Only call new_chat if there are messages (active conversation)
+      if (hasMessagesRef.current) {
+        handleNewChat();
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
 
   const handleSend = async (text: string) => {
     const userMessage: Message = { role: "user", content: text };
@@ -69,6 +91,7 @@ const ChatApp: React.FC = () => {
         method: "POST",
       });
       if (!response.ok) throw new Error("Failed to reset chat on backend");
+      console.log("Chat reset successfully");
     } catch (err) {
       console.error(err);
     }

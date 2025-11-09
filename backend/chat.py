@@ -5,9 +5,10 @@ from datetime import datetime
 class Chat:
     def __init__(self, initial_prompt):
         self.session_id = str(uuid4())
-        self.initial_prompt = initial_prompt
         self.feedback = "none"
         self.timestamp_start = datetime.now().isoformat()
+        
+        self.initial_prompt = initial_prompt
         self.chat: List[Dict[str, str]] = [{"role": "system",
                                             "content": initial_prompt}]
         self.monitoring_log: List[Dict[str, str, float]] = [{"role": "system",
@@ -30,9 +31,12 @@ class Chat:
         return self.monitoring_log
 
     def new_chat(self):
-        # self.chat = [{"role": "system", "content": self.initial_prompt}]
         self.chat = self.chat[:1]
         self.monitoring_log = self.monitoring_log[:1]
+        self.session_id = str(uuid4())
+        self.timestamp_start = datetime.now().isoformat()
+        self.feedback = "none"
+
 
     def set_feedback(self, feedback: str):
         if feedback in ["positive", "negative", "none"]:

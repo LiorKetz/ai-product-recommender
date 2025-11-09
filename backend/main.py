@@ -113,7 +113,7 @@ def calculate_feedback_stats(logs: List[Dict[str, Any]]) -> tuple[int, float]:
     Returns:
         tuple: (chats_with_feedback_count, positive_feedback_percent)
     """
-    chats_with_feedback = [log for log in logs if log.get("user_feedback") is not None]
+    chats_with_feedback = [log for log in logs if log["user_feedback"] != "none"]
     positive_feedback = [log for log in chats_with_feedback if log["user_feedback"] == "positive"]
     
     feedback_count = len(chats_with_feedback)
