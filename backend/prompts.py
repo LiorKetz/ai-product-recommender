@@ -37,8 +37,6 @@ RULES:
 5. Never output anything outside the JSON.
 """
 
-
-
 # Prompt template for product recommendation based on chat summary and product list:
 recommendation_prompt = PromptTemplate(
     input_variables=["chat_summary", "products_str"],
