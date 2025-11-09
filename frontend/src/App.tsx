@@ -3,17 +3,11 @@ import ChatWindow from "./components/ChatWindow/ChatWindow";
 import InputBox from "./components/ChatWindow/InputBox";
 import Button from "./components/Button";
 import Dashboard from "./components/Dashboard";
-
-interface Message {
-  role: "user" | "assistant";
-  content: string;
-  isRecommendation?: boolean;
-  feedback?: 'positive' | 'negative' | 'none';
-}
+import { MessageProps } from "./types";
 
 // Main chat component
 const ChatApp: React.FC = () => {
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<MessageProps[]>([]);
   const hasMessagesRef = useRef(false);
 
   // Track if there are messages in the chat
@@ -37,8 +31,13 @@ const ChatApp: React.FC = () => {
     };
   }, []);
 
+  /**
+   * @param text The text message sent by the user
+   * Handles sending user message to backend and receiving bot response. 
+   * Updates the chat messages state accordingly.
+   */
   const handleSend = async (text: string) => {
-    const userMessage: Message = { role: "user", content: text };
+    const userMessage: MessageProps = { role: "user", content: text };
     setMessages((prev) => [...prev, userMessage]);
 
     try {
@@ -51,7 +50,7 @@ const ChatApp: React.FC = () => {
       if (!response.ok) throw new Error("API error");
 
       const data = await response.json();
-      const botMessage: Message = { 
+      const botMessage: MessageProps = { 
         role: "assistant", 
         content: data.response,
         isRecommendation: data.is_recommendation,
@@ -59,11 +58,16 @@ const ChatApp: React.FC = () => {
       };
       setMessages((prev) => [...prev, botMessage]);
     } catch (err) {
-      const errorMessage: Message = { role: "assistant", content: "Error: could not reach backend" };
+      const errorMessage: MessageProps = { role: "assistant", content: "Error: could not reach backend" };
       setMessages((prev) => [...prev, errorMessage]);
     }
   };
 
+  /**
+   * @param messageIndex Index of the message to provide feedback on
+   * @param feedbackType Type of feedback: 'positive' or 'negative'
+   * Handles user feedback on recommendations and sends it to the backend.
+   */
   const handleFeedback = async (messageIndex: number, feedbackType: 'positive' | 'negative') => {
     setMessages((prev) =>
       prev.map((msg, idx) =>
@@ -83,6 +87,9 @@ const ChatApp: React.FC = () => {
     }
   };
 
+  /**
+   * Resets the chat both on frontend and backend.
+   */
   const handleNewChat = async () => {
     setMessages([]);
 

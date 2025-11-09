@@ -1,18 +1,11 @@
 import React from "react";
 import Message from "./Message";
+import { ChatWindowProps } from "../../types";
 
-interface MessageType {
-  role: "user" | "assistant";
-  content: string;
-  isRecommendation?: boolean;  // NEW
-  feedback?: 'positive' | 'negative' | 'none';  // NEW
-}
 
-interface ChatWindowProps {
-  messages: MessageType[];
-  onFeedback: (messageIndex: number, feedbackType: 'positive' | 'negative') => void;  // NEW
-}
-
+/**
+ * ChatWindow component implementation.
+ */
 const ChatWindow: React.FC<ChatWindowProps> = ({ messages, onFeedback }) => {
   return (
     <div className="p-4 h-full overflow-y-auto bg-white">
@@ -26,14 +19,15 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ messages, onFeedback }) => {
             key={index} 
             role={msg.role} 
             content={msg.content}
-            isRecommendation={msg.isRecommendation}  // NEW
-            feedback={msg.feedback}  // NEW
-            onFeedback={(feedbackType) => onFeedback(index, feedbackType)}  // NEW
+            isRecommendation={msg.isRecommendation}
+            feedback={msg.feedback}
+            onFeedback={(feedbackType) => onFeedback(index, feedbackType)}
           />
         ))
       )}
     </div>
   );
 };
+
 
 export default ChatWindow;

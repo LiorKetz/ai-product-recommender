@@ -1,7 +1,7 @@
 from data_handler import get_categories, get_product_keys
 from langchain_core.prompts import PromptTemplate
 
-
+# The initial prompt given to the chat model:
 INITIAL_PROMPT = f"""
 You are a friendly and helpful shopping assistant.
  Your job is to help users choose the right product from a catalog organized into categories.  
@@ -30,6 +30,7 @@ Remember: all conversation should feel natural, but the JSON must always follow 
 
 """
 
+# Prompt template for product recommendation based on chat summary and product list:
 recommendation_prompt = PromptTemplate(
     input_variables=["chat_summary", "products_str"],
     template="""
@@ -58,6 +59,7 @@ recommendation_prompt = PromptTemplate(
     """
 )
 
+# Prompt template for summarizing user needs from chat history:
 conversation_summary_prompt = PromptTemplate(
     input_variables=["chat_history"],
     template="""

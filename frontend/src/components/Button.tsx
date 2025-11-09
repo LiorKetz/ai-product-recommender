@@ -1,5 +1,8 @@
 import React from "react";
 
+/**
+ * ButtonProps defines the properties for the Button component.
+ */
 interface ButtonProps {
   label: string;
   onClick: () => void;
@@ -7,6 +10,9 @@ interface ButtonProps {
   disabled?: boolean;
 }
 
+/**
+ * Button component represents a clickable button with different styles.
+ */
 const Button: React.FC<ButtonProps> = ({ label, onClick, variant = "primary", disabled = false }) => {
   const baseStyles = "px-4 py-2 rounded-xl font-semibold focus:outline-none focus:ring-2 transition-colors";
   const variantStyles =

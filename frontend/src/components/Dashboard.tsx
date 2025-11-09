@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 
+/**
+ * Dashboard component displays system statistics fetched from the backend.
+ */
 export default function Dashboard() {
   const [stats, setStats] = useState<any>(null);
 

@@ -1,13 +1,9 @@
 import React from "react";
+import { MessageProps } from "../../types";
 
-interface MessageProps {
-  role: "user" | "assistant";
-  content: string;
-  isRecommendation?: boolean;  // NEW
-  feedback?: 'positive' | 'negative' | 'none';  // NEW
-  onFeedback?: (feedbackType: 'positive' | 'negative') => void;  // NEW
-}
-
+/**
+ * Message component represents a single chat message.
+ */
 const Message: React.FC<MessageProps> = ({ role, content, isRecommendation, feedback, onFeedback }) => {
   const isUser = role === "user";
 

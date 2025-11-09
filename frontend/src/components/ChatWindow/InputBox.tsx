@@ -1,10 +1,16 @@
 import React, { useState, KeyboardEvent } from "react";
 import Button from "../Button";
 
+/**
+ * InputBoxProps defines the properties for the InputBox component.
+ */
 interface InputBoxProps {
   onSend: (message: string) => void;
 }
 
+/**
+ * InputBox component allows users to type and send messages.
+ */
 const InputBox: React.FC<InputBoxProps> = ({ onSend }) => {
   const [text, setText] = useState("");
 
@@ -14,6 +20,9 @@ const InputBox: React.FC<InputBoxProps> = ({ onSend }) => {
     setText("");
   };
 
+  /**
+   * handleKeyPress handles the Enter key press event to send the message.
+   */
   const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") handleSend();
   };
