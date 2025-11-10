@@ -28,7 +28,7 @@ The system follows a **Hierarchical Two-Step Retrieval** approach — optimizing
   ```json
   {
     "Answer": "<short message to the user>",
-    "ready_to_filter": true/false,
+    "ready_to_filter": <true or false>,
     "selected_category": "<category name or null>"
   }
   ```
@@ -89,7 +89,7 @@ Full API docs available automatically at: `/docs`
 ### Environment Configuration:
 * Create a `.env` file with Groq API key: 
 ```bash
-GROQ_API_KEY=<your_key_from_https://console.groq.com/keys>
+GROQ_API_KEY=<your_key_from_(https://console.groq.com/keys)>
 ```
 ⚠️ The .env file should not be pushed to version control.
 
