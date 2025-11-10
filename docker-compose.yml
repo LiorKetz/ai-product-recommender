@@ -1,0 +1,20 @@
+# You can either use the pre-built images from Docker Hub
+# or uncomment the "build" lines to build the images locally.
+services:
+  backend:
+    # build: ./backend
+    image: lorketz/ai-product-backend:latest
+    env_file:
+      - ./backend/.env
+    ports:
+      - "8000:8000"
+
+  frontend:
+    # build: ./frontend
+    image: lorketz/ai-product-frontend:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://backend:8000
+    depends_on:
+      - backend

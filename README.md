@@ -12,7 +12,7 @@ This project delivers a Full-Stack, End-to-End (E2E) web application where users
 ---
 
 ## ⚙️ Development Methodology
-The project was developed using an **iterative, layered approach (Agile/Spiral)**. i prioritized establishing a working E2E baseline (Frontend/Backend/Basic Chat) before moving to complex features like the Hierarchical Retrieval and Monitoring. This approach ensured **continuous functionality** and **resilience to change**, allowing the core requirements to be met efficiently.
+The project was developed using an **iterative, layered approach (Agile/Spiral)**. I prioritized establishing a working E2E baseline (Frontend/Backend/Basic Chat) before moving to complex features like the Hierarchical Retrieval and Monitoring. This approach ensured **continuous functionality** and **resilience to change**, allowing the core requirements to be met efficiently.
 
 ## 🧩 Core Agent Architecture
 The backend implements a sophisticated architecture to ensure accurate and grounded recommendations from the LLM, managing the small product catalog efficiently.
@@ -40,6 +40,22 @@ While the core requirements are met, the following opportunities for enhancement
 * **Recommendation Saturation / Chat Reset Logic:** The current implementation achieves the recommendation goal, but continuous conversation post-recommendation often results in **recommendation saturation** (the agent repeatedly suggests the initial product). This requires the user to manually initiate a new session via the `/new_chat` endpoint. Future development should integrate a programmatic **Conversation Reset Mechanism** in the backend, either by locking the chat input or by modifying the agent's logic to automatically return to **Step A (Category Identification)** upon detecting a new, separate query.
 * **Code Modularization:** Due to the time constraints of the assignment, certain refactoring opportunities were noted but deferred. Files like `main.py` (Backend) or `App.tsx` (Frontend) would benefit from further **modularization and separation of concerns** to improve long-term maintainability.
 
+## 🚀 Quick Start (Recommended) – Run with Docker Compose
+### Prerequisites
+* Docker & Docker Compose.
+* A Groq API Key:
+  in .env file: GROQ_API_KEY=<your_key_here from `https://console.groq.com/keys`>
+
+### Run the app
+docker-compose -p advisebot up
+or:
+docker-compose -p advisebot up --build
+(the image in: [Docker Hub](https://hub.docker.com/u/lorketz))
+Note: Both backend and frontend images are public on Docker Hub under `lorketz/`. Users can pull them directly without building locally.
+
+
+✅ The full-stack AI Product Recommendation Agent is now ready and fully functional.
+
 ## 🚀 E2E Setup & Run
 To run the entire system, both the Backend and Frontend services must be started separately.
 
@@ -52,7 +68,8 @@ To run the entire system, both the Backend and Frontend services must be started
 ```bash
 cd backend
 # Create a .env file with your Groq API key
-# GROQ_API_KEY=<your_key_here>
+# GROQ_API_KEY=<your_key_here from `https://console.groq.com/keys`>
+# Like in .env.example file
 pip install -r requirements.txt
 uvicorn main:app --reload
 ```
