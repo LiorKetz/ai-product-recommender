@@ -1,46 +1,58 @@
-# Getting Started with Create React App
+# 💻 Frontend Service (React / TypeScript)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 🔍 Overview
+The Frontend service is a **Single Page Application (SPA)** built with **React** and **TypeScript**. Its primary role is to provide the user interface for interacting with the AI product recommendation agent and to display the system's monitoring logs.
 
-## Available Scripts
+The application is structured around two main **views (routes)**:
+1.  **Chat Interface:** The core component for real-time, multi-turn conversation with the agent.
+2.  **Dashboard:** A dedicated view for displaying the minimal evaluation metrics and conversation logs retrieved from the Backend API.
 
-In the project directory, you can run:
+--- 
 
-### `npm start`
+## 🗂️ Directory Structure
+```bash
+frontend/
+└── src/
+    ├── components/
+    │   ├── ChatWindow/
+    │   │   ├── ChatWindow.tsx   # Main chat container and conversation state manager.
+    │   │   ├── InputBox.tsx     # Handles user input and new message submission.
+    │   │   └── Message.tsx      # Renders individual chat messages (user/agent) and recommendations.
+    │   ├── Button.tsx           # Reusable UI component.
+    │   └── Dashboard.tsx        # Fetches and displays the /logs data from the backend.
+    ├── App.tsx                  # Main application router and layout.
+    └── types.tsx                # Centralized TypeScript interfaces for API schemas (e.g., Message, FeedbackData).
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## ⚙️ Key Technologies & Design
+* **Framework**: **React** (v18+)
+* **Language**: **TypeScript** (preferred for strong typing and data integrity).
+* **State Management**: Local component state (potentially using React Hooks) manages the conversation history.
+* **API Communication**: Uses standard browser Fetch API or a library like Axios to interact with the backend running on `http://127.0.0.1:8000`.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 🛠️ Key Features & Navigation
+| Feature | URL Path | Description |
+| :--- | :--- | :--- |
+| **Chat Interface** | [http://localhost:3000/](http://localhost:3000) | Main application view. Handles real-time communication with the `/chat`, `/new_chat`, and `/feedback` backend endpoints. |
+| **Monitoring Dashboard** | [http://localhost:3000/dashboard](http://localhost:3000/dashboard) | **Dedicated view** for minimal evaluation. Fetches and displays the full conversation logs retrieved from the backend's `/logs` endpoint. |
+| **Data Consistency** | - | Uses **TypeScript interfaces (`types.tsx`)** to ensure data structures used for API communication are strongly typed. |
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🚀 Setup and Running
+### Prerequisites:
+* Node.js (v18+)
+* `npm`
+* ⚠️ Make sure the **Backend service is running** on [http://127.0.0.1:8000](http://127.0.0.1:8000) (see `backend/README.md`).
 
-### `npm run build`
+### Run Frontend:
+```bash
+cd frontend
+npm install
+npm start
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+✅ The frontend is now ready and fully functional.  
+- Chat Interface: [http://localhost:3000](http://localhost:3000)  
+- Dashboard: [http://localhost:3000/dashboard](http://localhost:3000/dashboard)
