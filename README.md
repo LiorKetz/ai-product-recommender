@@ -40,6 +40,32 @@ While the core requirements are met, the following opportunities for enhancement
 * **Recommendation Saturation / Chat Reset Logic:** The current implementation achieves the recommendation goal, but continuous conversation post-recommendation often results in **recommendation saturation** (the agent repeatedly suggests the initial product). This requires the user to manually initiate a new session via the `/new_chat` endpoint. Future development should integrate a programmatic **Conversation Reset Mechanism** in the backend, either by locking the chat input or by modifying the agent's logic to automatically return to **Step A (Category Identification)** upon detecting a new, separate query.
 * **Code Modularization:** Due to the time constraints of the assignment, certain refactoring opportunities were noted but deferred. Files like `main.py` (Backend) or `App.tsx` (Frontend) would benefit from further **modularization and separation of concerns** to improve long-term maintainability.
 
+While several improvements are identified above, the following section outlines the main challenges faced during development, key assumptions made, and lessons learned from these experiences.
+
+
+## 🛠️ Challenges, Assumptions & Lessons Learned
+During the development of this project, I encountered several challenges and made key assumptions that influenced the design and implementation:
+
+### Challenges
+- **LLM/API Selection:** Initially, I wanted a free API, but balancing cost, latency, and reliability led me to choose Groq. Switching providers required designing the backend to be easily adaptable.
+- **Frontend Design:** As frontend is not my strongest skill, designing a visually coherent interface was challenging. I relied partly on AI-assisted design suggestions to speed up development. Choosing my own component structure helped me maintain control over state and conversation flow despite limited design skills.
+- **Prompt Engineering:** Crafting prompts that ensured the LLM would follow the desired JSON structured output was challenging. Initially, the model did not respect format constraints or revealed unnecessary internal parameters, requiring iterative prompt refinement.
+- **Docker & DevOps:** Although I had some prior experience, setting up Docker and Docker Compose for a full-stack app was challenging due to unfamiliarity and time constraints.
+- **Time Management:** With only one week for the assignment, I had to prioritize core functionality (conversation, recommendation, and logging) over secondary features such as advanced frontend design.
+
+### Assumptions
+- The product catalog is relatively small and static; any updates require manual adjustments to the category map.
+- Users will interact through short, guided conversations, allowing the agent to accurately recommend products within limited context.
+
+### Lessons Learned
+- Frontend design is challenging for me, but planning my own component structure helped me control conversation state and flow despite my limited design skills.
+- Experimenting with different LLM prompts taught me how small changes can drastically improve the model’s output and adherence to the desired JSON format.
+- Abstracting the LLM provider early made it easier to switch APIs when needed, which was crucial when the original API did not behave as expected.
+- Working with Docker and Docker Compose under a tight deadline was stressful but reinforced the importance of understanding the deployment pipeline and being able to troubleshoot issues independently.
+- Time management is key: prioritizing core features like conversation logic and recommendations over frontend polish ensured the project remained functional and deliverable within the one-week timeframe.
+
+---
+
 ## 🚀 Quick Start (Recommended) – Run with Docker Compose
 ### Prerequisites
 * Docker & Docker Compose.
