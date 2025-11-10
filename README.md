@@ -47,11 +47,15 @@ While the core requirements are met, the following opportunities for enhancement
   in .env file: GROQ_API_KEY=<your_key_here from `https://console.groq.com/keys`>
 
 ### Run the app
+```bash
 docker-compose -p advisebot up
+```
 or:
+```bash
 docker-compose -p advisebot up --build
-(the image in: [Docker Hub](https://hub.docker.com/u/lorketz))
+```
 Note: Both backend and frontend images are public on Docker Hub under `lorketz/`. Users can pull them directly without building locally.
+(the image in: [Docker Hub](https://hub.docker.com/u/lorketz))
 
 
 ✅ The full-stack AI Product Recommendation Agent is now ready and fully functional.
