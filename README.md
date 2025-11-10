@@ -52,7 +52,7 @@ To run the entire system, both the Backend and Frontend services must be started
 ```bash
 cd backend
 # Create a .env file with your Groq API key
-# GROQ_API_KEY=<your_key_from_(https://console.groq.com/keys)>
+# GROQ_API_KEY=<your_key_from_[Groq Console](https://console.groq.com/keys)>
 pip install -r requirements.txt
 uvicorn main:app --reload
 ```

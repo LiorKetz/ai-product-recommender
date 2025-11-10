@@ -89,7 +89,7 @@ Full API docs available automatically at: `/docs`
 ### Environment Configuration:
 * Create a `.env` file with Groq API key: 
 ```bash
-GROQ_API_KEY=<your_key_from_(https://console.groq.com/keys)>
+GROQ_API_KEY=<your_key_from_[Groq Console](https://console.groq.com/keys)>
 ```
 ⚠️ The .env file should not be pushed to version control.
 
